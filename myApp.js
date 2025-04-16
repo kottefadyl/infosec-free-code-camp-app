@@ -3,7 +3,7 @@ const helmet = require('helmet');
 const app = express();
 
 app.use(helmet.hidePoweredBy())
-
+ app.use(helmet.frameguard({action:'deny'}))
 helmet.hidePoweredBy()// here is the commend to remove the X-Powered-By: Express in the header off responses of the api which can be an indication or a guide that help hacker
 
 
