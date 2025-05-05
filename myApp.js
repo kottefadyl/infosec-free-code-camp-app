@@ -8,7 +8,8 @@ helmet.hidePoweredBy()// here is the commend to remove the X-Powered-By: Express
 
 //1-4 xss mitigate the risks
 app.use(helmet.xssFilter());
-app.use(helmet.noSniff())
+app.use(helmet.noSniff());
+app.use(helmet.ieNoOpen())
 
 
 
