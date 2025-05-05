@@ -15,6 +15,9 @@ app.use(helmet.ieNoOpen())
 const timeInSeconds = 90 * 24 * 60 * 60
 app.use(helmet.hsts({maxAge:timeInSeconds, force: true}))
 
+// Désactiver le DNS Prefetching
+app.use(helmet.dnsPrefetchControl());
+
 
 
 
