@@ -18,6 +18,16 @@ app.use(helmet.hsts({maxAge:timeInSeconds, force: true}))
 // Désactiver le DNS Prefetching
 app.use(helmet.dnsPrefetchControl());
 
+//Set a Content Security Policy with helmet.contentSecurityPolicy()
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'"], // tout vient du site lui-même
+      scriptSrc: ["'self'", 'trusted-cdn.com'], // scripts autorisés : mon site + trusted-cdn
+    },
+  })
+);
+
 
 app.use(helmet.noCache())
 
