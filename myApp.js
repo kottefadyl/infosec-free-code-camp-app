@@ -2,31 +2,47 @@ const express = require('express');
 const helmet = require('helmet');
 const app = express();
 
-app.use(helmet.hidePoweredBy())
-app.use(helmet.frameguard({ action: 'deny' }))
-helmet.hidePoweredBy()// here is the commend to remove the X-Powered-By: Express in the header off responses of the api which can be an indication or a guide that help hacker
 
-//1-4 xss mitigate the risks
-app.use(helmet.xssFilter());
-app.use(helmet.noSniff());
-app.use(helmet.ieNoOpen())
+// app.use(helmet.hidePoweredBy())
+// app.use(helmet.frameguard({ action: 'deny' }))
+// helmet.hidePoweredBy()// here is the commend to remove the X-Powered-By: Express in the header off responses of the api which can be an indication or a guide that help hacker
 
-//Ask Browsers to Access Your Site via HTTPS Only with helmet.hsts()
-const timeInSeconds = 90 * 24 * 60 * 60
-app.use(helmet.hsts({maxAge:timeInSeconds, force: true}))
+// //1-4 xss mitigate the risks
+// app.use(helmet.xssFilter());
+// app.use(helmet.noSniff());
+// app.use(helmet.ieNoOpen())
 
-// Désactiver le DNS Prefetching
-app.use(helmet.dnsPrefetchControl());
+// //Ask Browsers to Access Your Site via HTTPS Only with helmet.hsts()
+// const timeInSeconds = 90 * 24 * 60 * 60
+// app.use(helmet.hsts({maxAge:timeInSeconds, force: true}))
 
-//Set a Content Security Policy with helmet.contentSecurityPolicy()
-app.use(
-  helmet.contentSecurityPolicy({
+// // Désactiver le DNS Prefetching
+// app.use(helmet.dnsPrefetchControl());
+
+// //Set a Content Security Policy with helmet.contentSecurityPolicy()
+// app.use(
+//   helmet.contentSecurityPolicy({
+//     directives: {
+//       defaultSrc: ["'self'"], // tout vient du site lui-même
+//       scriptSrc: ["'self'", 'trusted-cdn.com'], // scripts autorisés : mon site + trusted-cdn
+//     },
+//   })
+// );
+
+app.use(helmet({
+  frameguard: {
+    action: 'deny'
+  },
+  contentSecurityPolicy:{
     directives: {
-      defaultSrc: ["'self'"], // tout vient du site lui-même
-      scriptSrc: ["'self'", 'trusted-cdn.com'], // scripts autorisés : mon site + trusted-cdn
-    },
-  })
-);
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'",'trusted-cdn.com' ],
+    }
+  },
+  dnsPrefetchControl: false,
+  noCache: true
+}))
+
 
 
 app.use(helmet.noCache())
